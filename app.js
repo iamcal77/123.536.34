@@ -13,7 +13,6 @@ app.use(cors());
 // Serve static files from the 'public' directory or the root if needed
 app.use(express.static(path.join(__dirname, 'public'))); // Change 'public' to your folder if necessary
 
-// Catch-all route to serve the HTML file (index.html)
 app.get('*', (req, res) => {
   const indexFilePath = path.join(__dirname, 'index.html');
   if (fs.existsSync(indexFilePath)) {

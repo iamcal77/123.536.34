@@ -2,7 +2,7 @@
   "name": "express-users",
   "version": "1.0.0",
   "description": "A simple Express app for login attempts",
-  "main": "server/app.js",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },

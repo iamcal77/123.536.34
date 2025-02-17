@@ -14,9 +14,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname)));  // Serve static files from the current directory
 
 // Catch-all route to serve the HTML files
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
+
 
 // Endpoint to handle login requests
 app.post("/login", (req, res) => {

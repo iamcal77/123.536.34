@@ -13,8 +13,15 @@ app.use(cors());
 // Serve static files from the current directory (root)
 app.use(express.static(path.join(__dirname)));  // Serve static files from the current directory
 
-// Catch-all route to serve the HTML files
-
+// Catch-all route to serve the HTML file (index.html)
+app.get('*', (req, res) => {
+  const indexFilePath = path.join(__dirname, 'index.html');
+  if (fs.existsSync(indexFilePath)) {
+    res.sendFile(indexFilePath);
+  } else {
+    res.status(404).send("Index file not found.");
+  }
+});
 
 // Endpoint to handle login requests
 app.post("/login", (req, res) => {

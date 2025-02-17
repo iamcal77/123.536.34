@@ -10,12 +10,12 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-// Serve static files from the current directory or another directory
-app.use(express.static(path.join(__dirname, ".")));
+// Serve static files from the current directory (root)
+app.use(express.static(__dirname));
 
-// Catch-all route to serve the HTML files if you're using single-page routing
+// Catch-all route to serve the HTML files
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));  // Change 'index.html' to your main HTML file if necessary
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Endpoint to handle login requests

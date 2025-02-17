@@ -10,11 +10,13 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-// Serve static files from the 'public' directory or the root if needed
-app.use(express.static(path.join(__dirname, 'public'))); // Change 'public' to your folder if necessary
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
+// Catch-all route to serve the HTML file (index.html)
 app.get('*', (req, res) => {
-  const indexFilePath = path.join(__dirname, 'index.html');
+  const indexFilePath = path.join(__dirname, 'public', 'index.html');
+  console.log("Looking for index file at:", indexFilePath);  // Check the file path in the console
   if (fs.existsSync(indexFilePath)) {
     res.sendFile(indexFilePath);
   } else {

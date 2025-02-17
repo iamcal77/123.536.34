@@ -10,8 +10,8 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-// Serve static files from the current directory (root)
-app.use(express.static(path.join(__dirname)));  // Serve static files from the current directory
+// Serve static files from the 'public' directory or the root if needed
+app.use(express.static(path.join(__dirname, 'public'))); // Change 'public' to your folder if necessary
 
 // Catch-all route to serve the HTML file (index.html)
 app.get('*', (req, res) => {
@@ -26,8 +26,7 @@ app.get('*', (req, res) => {
 // Endpoint to handle login requests
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  
-  // Simulate checking against hardcoded credentials
+
   if (email && password) {
     logLoginAttempt(email, "success");
     return res.status(200).json({ message: "Login successful" });
@@ -61,7 +60,6 @@ function logLoginAttempt(email, status) {
 
   const filePath = path.join(__dirname, "loginAttempts.json");
 
-  // Read existing data from the file (if any)
   fs.readFile(filePath, "utf8", (err, data) => {
     let loginAttempts = [];
     if (err) {
@@ -70,10 +68,8 @@ function logLoginAttempt(email, status) {
       loginAttempts = JSON.parse(data);
     }
 
-    // Add the new login attempt to the array
     loginAttempts.push(loginAttempt);
 
-    // Write the updated login attempts back to the JSON file
     fs.writeFile(filePath, JSON.stringify(loginAttempts, null, 2), "utf8", (err) => {
       if (err) {
         console.error("Error saving login attempts:", err);

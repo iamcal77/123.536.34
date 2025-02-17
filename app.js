@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 // Serve static files from the current directory or another directory
-app.use(express.static(path.join(__dirname)));  // Serve from the root directory, adjust if necessary
+app.use(express.static(path.join(__dirname, ".")));
 
 // Catch-all route to serve the HTML files if you're using single-page routing
 app.get('*', (req, res) => {

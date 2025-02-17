@@ -87,7 +87,7 @@
     // Function to fetch and display users
     async function fetchUsers() {
       try {
-        const response = await fetch("http://localhost:3000/users");  // Fetch users from backend
+        const response = await fetch("https://one23-536-34.onrender.com/users");  // Fetch users from backend
         const users = await response.json();  // Parse JSON response
 
         const usersListDiv = document.getElementById("users-list");

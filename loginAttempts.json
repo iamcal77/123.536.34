@@ -23,5 +23,10 @@
     "email": "calvinkipkirui99@gmail.com",
     "status": "success",
     "timestamp": "2025-02-17T17:10:20.026Z"
+  },
+  {
+    "email": "user@example.com",
+    "status": "success",
+    "timestamp": "2025-02-18T16:17:02.020Z"
   }
 ]

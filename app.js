@@ -13,7 +13,9 @@ const verificationCodes = {}; // Temporary store for verification codes
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'senopay.html')); // Change 'home.html' to your preferred page
+});
 // API endpoint for login
 app.post("/login", (req, res) => {
     const { email, password } = req.body;

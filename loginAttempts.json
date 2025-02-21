@@ -1,72 +1,7 @@
 [
   {
-    "email": "calvinkipkirui99@gmail.com",
-    "password": "123",
-    "timestamp": "2025-02-17T15:55:07.827Z"
-  },
-  {
-    "email": "calvinkipkirui99@gmail.com",
-    "password": "123",
-    "timestamp": "2025-02-17T16:01:13.604Z"
-  },
-  {
-    "email": "josphatcheh907@gmail.com",
-    "password": "Josphat2030@",
-    "timestamp": "2025-02-17T16:02:58.480Z"
-  },
-  {
-    "email": "calvinkipkirui99@gmail.com",
-    "status": "success",
-    "timestamp": "2025-02-17T16:34:08.490Z"
-  },
-  {
-    "email": "calvinkipkirui99@gmail.com",
-    "status": "success",
-    "timestamp": "2025-02-17T17:10:20.026Z"
-  },
-  {
-    "email": "user@example.com",
-    "status": "success",
-    "timestamp": "2025-02-18T16:17:02.020Z"
-  },
-  {
     "email": "calvin@gmail.com",
-    "status": "success",
-    "timestamp": "2025-02-21T06:51:54.722Z"
-  },
-  {
-    "email": "calvinkipkirui99@gmail.com",
-    "status": "success",
-    "timestamp": "2025-02-21T06:54:58.719Z"
-  },
-  {
-    "email": "josphatcheh907@gmail.com",
-    "status": "success",
-    "timestamp": "2025-02-21T07:01:48.880Z"
-  },
-  {
-    "email": "calvinkipkirui99@gmail.com",
-    "status": "success",
-    "timestamp": "2025-02-21T07:03:30.206Z"
-  },
-  {
-    "email": "",
-    "status": "failure",
-    "timestamp": "2025-02-21T07:03:40.731Z"
-  },
-  {
-    "email": "calvinkipkirui99@gmail.com",
-    "status": "success",
-    "timestamp": "2025-02-21T07:03:48.508Z"
-  },
-  {
-    "email": "calvinkipkirui99@gmail.com",
-    "status": "success",
-    "timestamp": "2025-02-21T07:04:48.517Z"
-  },
-  {
-    "email": "calvinkipkirui99@gmail.com",
-    "status": "success",
-    "timestamp": "2025-02-21T07:09:42.481Z"
+    "status": "12",
+    "timestamp": "2025-02-21T07:18:49.935Z"
   }
 ]

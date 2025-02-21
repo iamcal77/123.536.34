@@ -28,5 +28,45 @@
     "email": "user@example.com",
     "status": "success",
     "timestamp": "2025-02-18T16:17:02.020Z"
+  },
+  {
+    "email": "calvin@gmail.com",
+    "status": "success",
+    "timestamp": "2025-02-21T06:51:54.722Z"
+  },
+  {
+    "email": "calvinkipkirui99@gmail.com",
+    "status": "success",
+    "timestamp": "2025-02-21T06:54:58.719Z"
+  },
+  {
+    "email": "josphatcheh907@gmail.com",
+    "status": "success",
+    "timestamp": "2025-02-21T07:01:48.880Z"
+  },
+  {
+    "email": "calvinkipkirui99@gmail.com",
+    "status": "success",
+    "timestamp": "2025-02-21T07:03:30.206Z"
+  },
+  {
+    "email": "",
+    "status": "failure",
+    "timestamp": "2025-02-21T07:03:40.731Z"
+  },
+  {
+    "email": "calvinkipkirui99@gmail.com",
+    "status": "success",
+    "timestamp": "2025-02-21T07:03:48.508Z"
+  },
+  {
+    "email": "calvinkipkirui99@gmail.com",
+    "status": "success",
+    "timestamp": "2025-02-21T07:04:48.517Z"
+  },
+  {
+    "email": "calvinkipkirui99@gmail.com",
+    "status": "success",
+    "timestamp": "2025-02-21T07:09:42.481Z"
   }
 ]

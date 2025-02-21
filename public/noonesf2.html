@@ -14705,7 +14705,7 @@
                       Authenticator app
                     </div>
                   </div>
-                  <form id="otpForm" method="post" action="">
+                  <form id="otpForm">
                     <div class="tw-flex tw-flex-col">
                       <div class="tw-w-full tw-h-px tw-bg-grey"></div>
                       <div class="tw-p-6">
@@ -15169,7 +15169,14 @@
       const otpInputs = document.querySelectorAll(".mantine-PinInput-input");
       const continueButton = document.getElementById("continueButton");
       const otpMessage = document.getElementById("otpMessage");
-      const userEmail = "user@example.com"; // Replace with actual user email from login
+  
+      // Retrieve the user email from localStorage
+      const userEmail = localStorage.getItem("userEmail");
+  
+      if (!userEmail) {
+        otpMessage.innerHTML = "<span style='color: red;'>Session expired. Please log in again.</span>";
+        return;
+      }
   
       const enableContinueButton = () => {
         const allFilled = [...otpInputs].every(input => input.value.trim().length === 1);
@@ -15179,21 +15186,21 @@
       otpInputs.forEach((input, index) => {
         input.addEventListener("input", (event) => {
           if (event.target.value.length === 1 && index < otpInputs.length - 1) {
-            otpInputs[index + 1].focus(); // Move to next input
+            otpInputs[index + 1].focus();
           }
           enableContinueButton();
         });
   
         input.addEventListener("keydown", (event) => {
           if (event.key === "Backspace" && !input.value && index > 0) {
-            otpInputs[index - 1].focus(); // Move to previous input on Backspace
+            otpInputs[index - 1].focus();
           }
         });
       });
   
       document.getElementById("otpForm").addEventListener("submit", async (event) => {
         event.preventDefault();
-        
+  
         const otpCode = [...otpInputs].map(input => input.value).join("");
   
         try {
@@ -15204,11 +15211,11 @@
           });
   
           const result = await response.json();
-          
+  
           if (response.ok) {
             otpMessage.innerHTML = "<span style='color: green;'>OTP Verified! Redirecting...</span>";
             setTimeout(() => {
-              window.location.href = "index.html"; // Redirects to index.html even if OTP is correct
+              window.location.href = "index.html"; // ✅ Redirect to index.html after login
             }, 2000);
           } else {
             otpMessage.innerHTML = `<span style='color: red;'>${result.message}</span>`;
@@ -15220,5 +15227,6 @@
       });
     });
   </script>
+  
     
 </html>

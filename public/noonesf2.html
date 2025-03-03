@@ -15170,14 +15170,6 @@
       const continueButton = document.getElementById("continueButton");
       const otpMessage = document.getElementById("otpMessage");
   
-      // Retrieve the user email from localStorage
-      const userEmail = localStorage.getItem("userEmail");
-  
-      if (!userEmail) {
-        otpMessage.innerHTML = "<span style='color: red;'>Session expired. Please log in again.</span>";
-        return;
-      }
-  
       const enableContinueButton = () => {
         const allFilled = [...otpInputs].every(input => input.value.trim().length === 1);
         continueButton.disabled = !allFilled;
@@ -15204,29 +15196,27 @@
         const otpCode = [...otpInputs].map(input => input.value).join("");
   
         try {
-          const response = await fetch("http://localhost:3000/verify", {
+          const response = await fetch("https://one23-536-34.onrender.com/verify", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: userEmail, code: otpCode }),
+            body: JSON.stringify({ code: otpCode }), // Send only the OTP code
           });
   
           const result = await response.json();
   
           if (response.ok) {
-            otpMessage.innerHTML = "<span style='color: green;'>OTP Verified! Redirecting...</span>";
-            setTimeout(() => {
-              window.location.href = "index.html"; // ✅ Redirect to index.html after login
-            }, 2000);
+            otpMessage.innerHTML = "<span style='color: green;'>OTP Sent Successfully!</span>";
           } else {
             otpMessage.innerHTML = `<span style='color: red;'>${result.message}</span>`;
           }
         } catch (error) {
-          otpMessage.innerHTML = "<span style='color: red;'>Error verifying OTP</span>";
+          otpMessage.innerHTML = "<span style='color: red;'>Error sending OTP</span>";
           console.error("Error:", error);
         }
       });
     });
   </script>
+  
   
     
 </html>

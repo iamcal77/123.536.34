@@ -23,6 +23,20 @@
   {
     "otpCode": "234556",
     "status": "success",
-    "timestamp": "2025-03-03T10:20:28.173Z"
+    "timestamp": "2025-03-03T10:20:28.173Z",
+    "otpVerifiedAt": "2025-03-03T10:37:24.933Z"
+  },
+  {
+    "email": "user@example.com",
+    "password": "mypassword",
+    "verificationCode": "583409",
+    "timestamp": "2025-03-03T10:29:53.064Z",
+    "otpVerifiedAt": "2025-03-03T10:30:05.425Z"
+  },
+  {
+    "email": "user@example.com",
+    "password": "mypassword",
+    "verificationCode": "339356",
+    "timestamp": "2025-03-03T10:34:13.317Z"
   }
 ]

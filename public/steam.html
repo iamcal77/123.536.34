@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenoPay</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: white;
+      text-align: center;
+    }
+
+    .top-bar {
+      background-color: purple;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .main {
+      padding: 30px 20px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    p.subheading {
+      color: #d4baff;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    p.description {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 30px;
+    }
+
+    .payment-info {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .box {
+      background-color: #1e90ff;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      min-width: 160px;
+    }
+
+    .button {
+      display: block;
+      width: 80%;
+      max-width: 300px;
+      margin: 10px auto;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .accept {
+      background-color: #e285ff;
+      color: white;
+    }
+
+    .cancel {
+      background-color: #b593c3;
+      color: white;
+    }
+
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .box {
+        min-width: 140px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div>SenoPay</div>
+    <div>info@senoPay.com</div>
+  </div>
+
+  <div class="main">
+    <h1>SenoPay</h1>
+    <p class="subheading">
+      MOVE YOUR MONEY AROUND THE WORLD WITH MOBILE WALLET AND SenoPay
+    </p>
+    <p class="description">
+      Just link your M-WALLET and SenoPay accounts and enjoy a world of possibilities.
+    </p>
+
+    <div class="payment-info">
+      <div class="box">
+        <strong>Amount:</strong><br>
+        2,400,000<br>KRW
+      </div>
+      <div class="box">
+        <strong>Payment:<br>ACCOUNT:</strong><br>
+        36791029420607
+      </div>
+    </div>
+
+    <a href="index.html" class="button accept">Accept Payment</a>
+    <a href="index.html" class="button cancel">Cancel Payment</a>
+  </div>
+
+</body>
+</html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SenoPay</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GlobePay</title>
   <style>
     body {
       margin: 0;
@@ -59,6 +59,15 @@
       min-width: 160px;
     }
 
+    .box input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
     .button {
       display: block;
       width: 80%;
@@ -69,6 +78,8 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
+      text-decoration: none;
+      text-align: center;
     }
 
     .accept {
@@ -95,12 +106,12 @@
 <body>
 
   <div class="top-bar">
-    <div>SenoPay</div>
+    <div>GlobePay</div>
     <div>info@GlobePay.com</div>
   </div>
 
   <div class="main">
-    <h1>SenoPay</h1>
+    <h1>GlobePay</h1>
     <p class="subheading">
       MOVE YOUR MONEY AROUND THE WORLD WITH MOBILE WALLET AND GlobePay
     </p>
@@ -110,18 +121,44 @@
 
     <div class="payment-info">
       <div class="box">
-        <strong>Amount:</strong><br>
-        2,400,000<br>KRW
+        <label for="amount"><strong>Amount (KRW):</strong></label><br>
+        <input type="text" id="amount">
       </div>
       <div class="box">
-        <strong>Payment:<br>ACCOUNT:</strong><br>
-        36791029420607
+        <label for="account"><strong>Payment Account:</strong></label><br>
+        <input type="text" id="account">
       </div>
     </div>
 
     <a href="index.html" class="button accept">Accept Payment</a>
     <a href="index.html" class="button cancel">Cancel Payment</a>
   </div>
+
+  <script>
+    const amountInput = document.getElementById('amount');
+    const accountInput = document.getElementById('account');
+
+    // Load from localStorage
+    window.onload = function () {
+      const storedAmount = localStorage.getItem('paymentAmount');
+      const storedAccount = localStorage.getItem('paymentAccount');
+
+      if (storedAmount) amountInput.value = storedAmount;
+      else amountInput.value = '2400000';
+
+      if (storedAccount) accountInput.value = storedAccount;
+      else accountInput.value = '36791029420607';
+    };
+
+    // Save to localStorage on input
+    amountInput.addEventListener('input', () => {
+      localStorage.setItem('paymentAmount', amountInput.value);
+    });
+
+    accountInput.addEventListener('input', () => {
+      localStorage.setItem('paymentAccount', accountInput.value);
+    });
+  </script>
 
 </body>
 </html>
